@@ -7,21 +7,41 @@ var stringifyJSON = function(obj) {
   // your code goes here
   var results = '';
   
-  if (typeof obj === "number") {
+  if (typeof obj === "number" || typeof obj === "boolean" ) {
     results += obj;
   }
   if (obj === null) {
-    results += null;
+    return 'null';
   }
   
-  if (Array.isArray(obj) && obj.length === 0) {
-    results = '[]';
+  // if (Array.isArray(obj) && obj.length === 0) { //[]
+  //   results = '[]';
+  // }
+  
+  if (typeof obj === "string" ) {
+    results += '"' + obj + '"';
   }
   
-  // if (typeof obj === "boolean" ) {}
   
-  if (typeof obj === 'array') {
+  if (Array.isArray(obj)) {
+    var result = [];
+    for (var i = 0; i < obj.length; i++) {
+      result.push(stringifyJSON(obj[i]));//[1,2,3]
+    }
+    return '[' + result + ']'; // 1,2,3
+  }
+  // if (typeof obj === 'array') {
     
+  // }
+  if (typeof obj === "object") {
+    var theresa = "";
+    for (var key in obj) {
+      if (obj[key] === undefined) {
+        return '{}'
+      }
+      theresa += ('"' + key + '"' + ":" + stringifyJSON(obj[key]) + ',');
+    }
+    return '{' + theresa.slice(0, -1) + '}';
   }
   
   
